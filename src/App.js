@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Form, Label, Input } from "reactstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Label,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+} from "reactstrap";
+import roundTo from "round-to";
 import "./App.css";
 
 const finalAmountStyle = {
@@ -32,11 +42,14 @@ class App extends Component {
             <br />
             <Form>
               <Label>Bill Amount</Label>
-              <Input
-                type="text"
-                value={this.state.billAmount}
-                onChange={this.handleBillChange}
-              />
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">$</InputGroupAddon>
+                <Input
+                  type="text"
+                  value={this.state.billAmount}
+                  onChange={this.handleBillChange}
+                />
+              </InputGroup>
               <br />
               <Label>Number of people</Label>
               <Input
@@ -47,7 +60,11 @@ class App extends Component {
               <br />
               <p>Amount each should pay</p>
               <p style={finalAmountStyle}>
-                {this.state.billAmount / this.state.numberOfPeople || ""}
+                $
+                {roundTo(
+                  this.state.billAmount / this.state.numberOfPeople,
+                  2
+                ) || ""}
               </p>
             </Form>
           </Col>
