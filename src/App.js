@@ -23,8 +23,6 @@ class App extends Component {
     this.setState({ numberOfPeople: e.target.value });
   }
   render() {
-    const finalAmount = () =>
-      this.state.billAmount / this.state.numberOfPeople || "";
     return (
       <Container>
         <Row>
@@ -34,13 +32,23 @@ class App extends Component {
             <br />
             <Form>
               <Label>Bill Amount</Label>
-              <Input type="text" />
+              <Input
+                type="text"
+                value={this.state.billAmount}
+                onChange={this.handleBillChange}
+              />
               <br />
               <Label>Number of people</Label>
-              <Input type="text" />
+              <Input
+                type="text"
+                value={this.state.numberOfPeople}
+                onChange={this.handlePeopleChange}
+              />
               <br />
               <p>Amount each should pay</p>
-              <p style={finalAmountStyle}>{finalAmount()}</p>
+              <p style={finalAmountStyle}>
+                {this.state.billAmount / this.state.numberOfPeople || ""}
+              </p>
             </Form>
           </Col>
         </Row>
