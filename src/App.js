@@ -12,10 +12,6 @@ import {
 import roundTo from "round-to";
 import "./App.css";
 
-const finalAmountStyle = {
-  fontSize: "2em",
-};
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -27,49 +23,67 @@ class App extends Component {
     this.handlePeopleChange = this.handlePeopleChange.bind(this);
   }
   handleBillChange(e) {
-    this.setState({ billAmount: e.target.value });
+    const billAmount = e.target.value;
+    if (billAmount === "" || /^\d*\.?\d{0,2}$/.test(billAmount)) {
+      this.setState({ billAmount });
+    }
   }
   handlePeopleChange(e) {
-    this.setState({ numberOfPeople: e.target.value });
+    const numberOfPeople = e.target.value;
+    if (numberOfPeople === "" || /^\d+$/.test(numberOfPeople)) {
+      this.setState({ numberOfPeople });
+    }
   }
   render() {
+    const calculateFinalAmount = () => {
+      const finalAmount = roundTo(
+        this.state.billAmount / this.state.numberOfPeople,
+        2
+      );
+      if (!finalAmount) {
+        return "";
+      }
+      return "$" + finalAmount;
+    };
     return (
-      <Container>
-        <Row>
-          <Col xs="0" sm="3" md="3"></Col>
-          <Col xs="12" sm="6">
-            <br />
-            <br />
-            <Form>
-              <Label>Bill Amount</Label>
-              <InputGroup>
-                <InputGroupAddon addonType="prepend">$</InputGroupAddon>
+      <div>
+        <Container>
+          <Row>
+            <Col xs="0" sm="3" md="3"></Col>
+            <Col xs="12" sm="6">
+              <h1>Bill Splitter</h1>
+              <h4>created by Andrew Horn</h4>
+              <br />
+              <br />
+              <Form>
+                <Label>Bill Amount</Label>
+                <InputGroup>
+                  <InputGroupAddon addonType="prepend">$</InputGroupAddon>
+                  <Input
+                    type="text"
+                    value={this.state.billAmount}
+                    onChange={this.handleBillChange}
+                  />
+                </InputGroup>
+                <br />
+                <Label>Number of people</Label>
                 <Input
                   type="text"
-                  value={this.state.billAmount}
-                  onChange={this.handleBillChange}
+                  value={this.state.numberOfPeople}
+                  onChange={this.handlePeopleChange}
                 />
-              </InputGroup>
-              <br />
-              <Label>Number of people</Label>
-              <Input
-                type="text"
-                value={this.state.numberOfPeople}
-                onChange={this.handlePeopleChange}
-              />
-              <br />
-              <p>Amount each should pay</p>
-              <p style={finalAmountStyle}>
-                $
-                {roundTo(
-                  this.state.billAmount / this.state.numberOfPeople,
-                  2
-                ) || ""}
-              </p>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+                <br />
+                <br />
+                <br />
+                {this.state.billAmount && this.state.numberOfPeople && (
+                  <p>Each should pay</p>
+                )}
+                <p id="final-amount">{calculateFinalAmount()}</p>
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     );
   }
 }
