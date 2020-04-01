@@ -10,8 +10,10 @@ import {
   InputGroupAddon,
   Button,
 } from "reactstrap";
-import roundTo from "round-to";
+// import roundTo from "round-to";
 import "./App.css";
+
+const roundTo = (input) => Math.round(input * 100) / 100;
 
 class App extends Component {
   constructor(props) {
