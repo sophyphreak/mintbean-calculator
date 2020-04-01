@@ -13,8 +13,8 @@ class App extends Component {
       billAmount: "",
       numberOfPeople: "",
     };
-    this.handleBillChange.bind(this);
-    this.handlePeopleChange.bind(this);
+    this.handleBillChange = this.handleBillChange.bind(this);
+    this.handlePeopleChange = this.handlePeopleChange.bind(this);
   }
   handleBillChange(e) {
     this.setState({ billAmount: e.target.value });
